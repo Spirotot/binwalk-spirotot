@@ -1,0 +1,31 @@
+name: binwalk-spirotot
+summary: Biwnalk Snap 
+version: master
+description: | 
+    Binwalk is a fast, easy to use tool for analyzing, reverse
+    engineering, and extracting firmware images.
+
+grade: stable
+confinement: strict
+
+apps:
+    binwalk:
+        command: usr/local/bin/binwalk
+        plugs: [home, fuse-support]
+
+parts:
+   python-build:
+        source: https://github.com/devttys0/binwalk.git
+        source-branch: master
+        stage-packages: [python-pip, python-setuptools, python-lzma, python-lzo, python-crypto, libqt4-opengl, python-opengl, python-qt4, python-qt4-gl, python-numpy, python-scipy, mtd-utils, gzip, bzip2, tar, arj, lhasa, p7zip, p7zip-full, cabextract, cramfsprogs, cramfsswap, sleuthkit, default-jdk, lzop, srecord, squashfuse, squashfs-tools]
+        plugin: python
+        python-version: python2
+        prepare: |
+            pip install --upgrade pip; \
+            pip install -U setuptools; \
+            ./deps.sh --yes; \
+            cp /usr/local/bin/sasquatch ../install/usr/local/bin/; \
+            cp /usr/local/bin/unstuff ../install/usr/local/bin/; \
+            cp /usr/local/bin/ubi* ../install/usr/local/bin/
+        build: |
+             python2 setup.py install
