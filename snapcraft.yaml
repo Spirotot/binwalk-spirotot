@@ -26,7 +26,13 @@ parts:
             pip install -U setuptools; \
             ./deps.sh --yes; \
             cp /usr/local/bin/sasquatch ../install/usr/local/bin/; \
-            cp /usr/local/bin/unstuff ../install/usr/local/bin/; # \
+            cp /usr/local/bin/unstuff ../install/usr/local/bin/;  \
+            mkdir -p ../install/etc/ssl/certs/java/; \
+            /bin/cp -f /etc/ssl/certs/java/cacerts ../install/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/cacerts;
+
+            # ^--- Error while processing...
+            # The store was unable to accept this snap.
+            #   - package contains external symlinks: usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/cacerts
             #cp /usr/local/bin/ubi* ../install/usr/local/bin/
         build: |
              python2 setup.py install
